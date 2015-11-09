@@ -7,37 +7,24 @@
 
 using namespace std;
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~ENIGMAPART CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-EnigmaPart::EnigmaPart()
-{
-	position = 0;
-}
-
-int EnigmaPart::get_position()
-{
-	return(position);
-}
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~PLUGBOARD CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 Plugboard::Plugboard()
 {
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;}
-	ptr_to_next_part = NULL;
 	plug_cables = 0;
 }
 
-void Plugboard::assign_values(ifstream& in_stream, EnigmaPart *next_part)
+void Plugboard::assign_values(ifstream& ins)
 {
 	int num;
 	int count = 0;
-	while(in_stream >> ws >> num)
+	while(ins >> ws >> num)
 	{
 		pairs[count] = num;
 		count++;
 	}
 	plug_cables = count/2;
-	ptr_to_next_part = next_part;
 }
 
 int Plugboard::swap(int input)
@@ -58,20 +45,18 @@ int Plugboard::swap(int input)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ROTOR CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 Rotor::Rotor()
 {
+	notch = 0;
 	position = 0;
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;}
-	ptr_to_fwd_part = NULL;
-	ptr_to_rev_part = NULL;
-	notch = 0;
 }
 
-void Rotor::assign_values(std::ifstream& in_stream, EnigmaPart *fwd_part, EnigmaPart *rev_part)
+void Rotor::assign_values(std::ifstream& ins)
 {
 	int num;
 	int count = 0;
 	int list_in[27];
-	while(in_stream >> ws >> num)
+	while(ins >> ws >> num)
 	{
 		list_in[count] = num;
 		count++;
@@ -79,13 +64,16 @@ void Rotor::assign_values(std::ifstream& in_stream, EnigmaPart *fwd_part, Enigma
 	for(int i = 0; i < 26; i++)
 		pairs[i] = list_in[i];
 	notch = list_in[26];
-	ptr_to_fwd_part = fwd_part;
-	ptr_to_rev_part = rev_part;
 }
 
-void Rotor::assign_position(std::ifstream& in_stream)
+void Rotor::assign_position(int input)
 {
-	// do nothing
+	position = input;
+}
+
+int Rotor::get_position()
+{
+	return(position);
 }
 
 void Rotor::rotate()
@@ -111,29 +99,26 @@ int Rotor::swap_rev(int input)
 			return(i);
 		}
 	}
-	exit(1);
+	cerr << "Invalid input." << endl;
+	exit(2);
 }
-
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~REFLECTOR CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 Reflector::Reflector()
 {
-	position = 0;
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;}
-	ptr_to_next_part = NULL;
 }
 
-void Reflector::assign_values(ifstream& in_stream, EnigmaPart *next_part)
+void Reflector::assign_values(ifstream& ins)
 {
 	int num;
 	int count = 0;
-	while(in_stream >> ws >> num)
+	while(ins >> ws >> num)
 	{
 		pairs[count] = num;
 		count++;
 	}
-	ptr_to_next_part = next_part;
 }
 
 int Reflector::swap(int input)
@@ -148,5 +133,6 @@ int Reflector::swap(int input)
 				return (pairs[i-1]);}
 		}
 	}
-	exit(1);
+	cerr << "Invalid input." << endl;
+	exit(2);
 }
