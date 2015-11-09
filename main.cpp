@@ -119,19 +119,23 @@ int main(int argc, char **argv)
 	
 	// Rotors
 	rotor_in = rotors[0]->swap_fwd(rotor_in + rotors[0]->get_position());
+	rotor_in = fix_input(rotor_in);
 	cout << "Rotor 1 spit out " << rotor_in << endl;
 	for(int i = 1; i < rotor_count; i++)
 	{
-		rotor_in =	rotors[i]->swap_fwd(
-					rotor_in +
+		rotor_in =	rotor_in +
 					rotors[i]->get_position() -
-					rotors[i-1]->get_position());
+					rotors[i-1]->get_position();
+		rotor_in = fix_input(rotor_in);
+		rotor_in = rotors[i]->swap_fwd(rotor_in);
+
 		cout << "Rotor " << i+1 << " spit out " << rotor_in << endl;
 	}
 	
 	// Reflector
 	int rotor_out = ref.swap(rotor_in) + rotors[rotor_count-1]->get_position();
-	cout << "Rotor 3 input is " << rotor_out << endl;
+	rotor_out = fix_input(rotor_out);
+	cout << "Refecltor spit out " << rotor_out << endl;
 	
 	// Rotors in reverse
 	for(int i = rotor_count-1; i > 0; i--)
@@ -139,16 +143,19 @@ int main(int argc, char **argv)
 		rotor_out = rotors[i]->swap_rev(rotor_out) -
 					rotors[i]->get_position() +
 					rotors[i-1]->get_position();
+		rotor_out = fix_input(rotor_out);
 		cout << "Rotor " << i+1 << " spit out " << rotor_out << endl;
 	}
+	rotor_out = rotors[0]->swap_rev(rotor_out) - rotors[0]->get_position();
+	rotor_out = fix_input(rotor_out);
+	cout << "Rotor " << 1 << " spit out " << rotor_out << endl;
 	
 	// Plugboard
-	rotor_in = pb.swap(rotor_in);
-	rotor_in = fix_input(rotor_in);
-	char output = rotor_in+65;
-	cout << "The plugboard spit out " << rotor_in
+	rotor_out = pb.swap(rotor_out);
+	rotor_out = fix_input(rotor_out);
+	char output = rotor_out+65;
+	cout << "The plugboard spit out " << rotor_out
 	<< " which is " << output << endl;
-	
 }
 
 /*
