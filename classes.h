@@ -4,31 +4,18 @@
 #include <iostream>
 #include <fstream>
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~ENIGMAPART CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-class EnigmaPart
-{
-public:
-	int position;
-	
-	EnigmaPart();
-	
-	/* function to get position */
-	int get_position();
-};
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~PLUGBOARD CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-class Plugboard : public EnigmaPart
+class Plugboard
 {
 private:
 	int plug_cables;
 	int pairs[26];
-	EnigmaPart *ptr_to_next_part;
 public:
 	Plugboard();
 
 	/* function to assign pairs to the array and the number of cables */
-	void assign_values(std::ifstream& in_stream, EnigmaPart *next_part);
+	void assign_values(std::ifstream& ins);
 	
 	/* function to swap an input with an output */
 	int swap(int input);
@@ -36,41 +23,42 @@ public:
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~ROTOR CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-class Rotor : public EnigmaPart
+class Rotor
 {
 private:
 	int notch;
 	int pairs[26];
-	EnigmaPart *ptr_to_fwd_part;
-	EnigmaPart *ptr_to_rev_part;
+	int position;
 public:
 	Rotor();
 	
 	/* function to assign pairs to the array and a value for the notch */
-	void assign_values(std::ifstream& in_stream, EnigmaPart *fwd_part, EnigmaPart *rev_part);
+	void assign_values(std::ifstream& ins);
 	
 	/* assign the position from the other stream */
-	void assign_position(std::ifstream& in_stream);
+	void assign_position(int input);
+	
+	/* get position of rotor */
+	int get_position();
 	
 	/* function to rotate the rotor */
 	void rotate();
 	
 	/* function to trace an input to the corresponding output backwards */
-	int swap_rev(int input);
 	int swap_fwd(int input);
+	int swap_rev(int input);
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~REFLECTOR CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-class Reflector : public EnigmaPart
+class Reflector
 {
 private:
 	int pairs[26];
-	EnigmaPart *ptr_to_next_part;
 public:
 	Reflector();
 	
 	/* function to assign pairs to the array */
-	void assign_values(std::ifstream& in_stream, EnigmaPart *next_part);
+	void assign_values(std::ifstream& ins);
 	
 	/* function to swap an input with an output */
 	int swap(int input);
