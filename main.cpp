@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <string>
+#include <cstring>
 #include "classes.h"
 #include "errors.h"
 
@@ -43,19 +43,10 @@ int fix_input(int input)
 
 int count_parts(int rotor_count)
 {
-	cout << "There are " << rotor_count << " rotors." << endl;
 	if(rotor_count > 0){
 		return(rotor_count+2);}
 	else {
 		return(rotor_count+3);}
-}
-
-string get_input()
-{
-	string input;
-	cout << "Enter a message in all capital letters: ";
-	getline (cin, input);
-	return(input);
 }
 
 int main(int argc, char **argv)
@@ -63,7 +54,8 @@ int main(int argc, char **argv)
 	/* count how many parts and rotors there are */
 	int rotor_count = argc-4;
 	int part_count = count_parts(rotor_count);
-	cout << "There are " << part_count << " enigma machine parts." << endl;
+	if (rotor_count > 0){cout << "There are " << rotor_count << " rotors." << endl;}
+	else {cout << "There are 0 rotors." << endl;}
 	
 	/* create plugboard and reflector */
 	Plugboard pb;
@@ -101,10 +93,10 @@ int main(int argc, char **argv)
 		// for now, they're all 0;
 		
 	// Input from user
-	char input;
 	cout << "Enter a message of capital letters: ";
-	cin >> input; // we're eventually going to use getline() I think.
-	
+	char input = cin.get();
+	while(input != '\n')
+	{
 	int enigma_in = input - 65;
 	
 	// Plugboard
@@ -115,12 +107,14 @@ int main(int argc, char **argv)
 	
 	int rotor_in = pb.swap(enigma_in);
 	rotor_in = fix_input(rotor_in);
-	cout << "The plugboard spit out " << rotor_in << "." << endl;
+	//cout << "The plugboard spit out " << rotor_in << "." << endl;
 	
 	// Rotors
-	rotor_in = rotors[0]->swap_fwd(rotor_in + rotors[0]->get_position());
+	rotor_in = rotor_in + rotors[0]->get_position();
 	rotor_in = fix_input(rotor_in);
-	cout << "Rotor 1 spit out " << rotor_in << endl;
+	rotor_in = rotors[0]->swap_fwd(rotor_in);
+	rotor_in = fix_input(rotor_in);
+	//cout << "Rotor 1 spit out " << rotor_in << endl;
 	for(int i = 1; i < rotor_count; i++)
 	{
 		rotor_in =	rotor_in +
@@ -129,13 +123,13 @@ int main(int argc, char **argv)
 		rotor_in = fix_input(rotor_in);
 		rotor_in = rotors[i]->swap_fwd(rotor_in);
 
-		cout << "Rotor " << i+1 << " spit out " << rotor_in << endl;
+		//cout << "Rotor " << i+1 << " spit out " << rotor_in << endl;
 	}
 	
 	// Reflector
 	int rotor_out = ref.swap(rotor_in) + rotors[rotor_count-1]->get_position();
 	rotor_out = fix_input(rotor_out);
-	cout << "Refecltor spit out " << rotor_out << endl;
+	//cout << "Reflector spit out " << rotor_out << endl;
 	
 	// Rotors in reverse
 	for(int i = rotor_count-1; i > 0; i--)
@@ -144,11 +138,11 @@ int main(int argc, char **argv)
 					rotors[i]->get_position() +
 					rotors[i-1]->get_position();
 		rotor_out = fix_input(rotor_out);
-		cout << "Rotor " << i+1 << " spit out " << rotor_out << endl;
+		//cout << "Rotor " << i+1 << " spit out " << rotor_out << endl;
 	}
 	rotor_out = rotors[0]->swap_rev(rotor_out) - rotors[0]->get_position();
 	rotor_out = fix_input(rotor_out);
-	cout << "Rotor " << 1 << " spit out " << rotor_out << endl;
+	//cout << "Rotor " << 1 << " spit out " << rotor_out << endl;
 	
 	// Plugboard
 	rotor_out = pb.swap(rotor_out);
@@ -156,7 +150,11 @@ int main(int argc, char **argv)
 	char output = rotor_out+65;
 	cout << "The plugboard spit out " << rotor_out
 	<< " which is " << output << endl;
+	
+	input = cin.get();
+	}
 }
+
 
 /*
 ./enigma plugboards/I.pb reflectors/I.rf rotors/I.rot rotors/II.rot rotors/III.rot rotors/I.pos
