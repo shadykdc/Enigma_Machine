@@ -26,7 +26,7 @@ public:
 class Rotor
 {
 private:
-	int notch;
+	int notches[26];
 	int pairs[26];
 	int position;
 	int rotations;
@@ -42,14 +42,14 @@ public:
 	/* get position of rotor */
 	int get_position();
 	
-	/* get notch value */
-	int get_notch();
-	
 	/* get rotations value */
 	int get_rotations();
 	
 	/* function to rotate the rotor */
 	void rotate();
+	
+	/* function to check if a number is a notch */
+	bool is_a_notch(int input);
 	
 	/* function to trace an input to the corresponding output backwards */
 	int swap_fwd(int input);
