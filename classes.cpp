@@ -103,10 +103,7 @@ bool Rotor::is_a_notch(int input)
 
 int Rotor::swap_fwd(int input)
 {
-	for (int i = 0; i < 26; i++)
-	{
-		return(pairs[input]);
-	}
+	return(pairs[input]);
 	cerr << "Invalid input for Rotor::swap_fwd(): " << input << "." << endl;
 	exit(2);
 }
