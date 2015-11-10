@@ -47,6 +47,7 @@ Rotor::Rotor()
 {
 	notch = 0;
 	position = 0;
+	rotations = 0;
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;}
 }
@@ -76,9 +77,24 @@ int Rotor::get_position()
 	return(position);
 }
 
+int Rotor::get_notch()
+{
+	return(notch);
+}
+
+int Rotor::get_rotations()
+{
+	return(rotations);
+}
+
 void Rotor::rotate()
 {
 	position = position + 1;
+	rotations = rotations +1;
+	if(position > 25)
+	{
+		position = position%26;
+	}
 }
 
 int Rotor::swap_fwd(int input)
