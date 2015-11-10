@@ -29,6 +29,7 @@ private:
 	int notch;
 	int pairs[26];
 	int position;
+	int rotations;
 public:
 	Rotor();
 	
@@ -40,6 +41,12 @@ public:
 	
 	/* get position of rotor */
 	int get_position();
+	
+	/* get notch value */
+	int get_notch();
+	
+	/* get rotations value */
+	int get_rotations();
 	
 	/* function to rotate the rotor */
 	void rotate();
