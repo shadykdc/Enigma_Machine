@@ -54,8 +54,8 @@ int main(int argc, char **argv)
 	/* count how many parts and rotors there are */
 	int rotor_count = argc-4;
 	int part_count = count_parts(rotor_count);
-	if (rotor_count > 0){cout << "There are " << rotor_count << " rotors." << endl;}
-	else {cout << "There are 0 rotors." << endl;}
+	//if (rotor_count > 0){cout << "There are " << rotor_count << " rotors." << endl;}
+	//else {cout << "There are 0 rotors." << endl;}
 	
 	/* create plugboard and reflector */
 	Plugboard pb;
@@ -95,85 +95,90 @@ int main(int argc, char **argv)
 	while (i < rotor_count && ins >> ws >> num){
 		rotors[i]->assign_position(num);
 		i++;
+		//cout << "Rotor " << i << " has a position of " << rotors[i-1]->get_position() << endl;
 	}
 	ins.close();
 		
 	// Input from user
-	cout << endl << "Enter a message of capital letters: ";
+	//cout << endl << "Enter a message of capital letters: ";
 	char input = cin.get();
-	cout << endl;
+	//cout << endl;
 	while(input != '\n')
 	{
 	int enigma_in = input - 65;
-	cout << input << " aka " << enigma_in << " is coming in." << endl;
+	cout << endl << input << " = " << enigma_in << " is coming in." << endl << endl;
 	
 	// Rotations
-	rotors[0]->rotate(); // rotor 1 is hitting 0 and not rotation the next one
-	cout << "Rotor 1 rotated.  It's position is " << rotors[0]->get_position() << endl;
-	for (int i = 0; i < rotor_count; i++)
-	{
-		if(rotors[i]->get_position() == 0 && rotors[i]->get_rotations() != 0 &&
-		i < rotor_count-1)
-		{
+	rotors[0]->rotate();
+	cout << "Rotor 1 rotated.  It has rotated "
+		<< rotors[0]->get_rotations() << " time(s) and is currently at position "
+		<< rotors[0]->get_position() << "." << endl;
+	
+	for (int i = 0; i < rotor_count-1; i++){
+	//	if this rotor has a notch at the current position, rotate the next 1.
+		if(rotors[i]->is_a_notch(rotors[i]->get_position())){
 			rotors[i+1]->rotate();
+			cout << "Rotor #" << i+2 << " rotated because Rotor #" << i+1 << " has a notch in position " << rotors[i]->get_position() << "." << endl;
 		}
-		if(rotors[i]->get_notch() == rotors[i]->get_position()){
-			rotors[i]->rotate();
-			if(rotors[i]->get_position() == 0 && i != rotor_count-1){
-				rotors[i+1]->rotate();
-				cout << endl << "Rotor #" << i+2 << " rotated because Rotor #"
-				<< i+1 << " hit A." << endl;
-			}
-			cout << "Rotor #" << i+1 << " rotated because it has a notch at "
-			<< rotors[i]->get_notch() << endl;
+	//	if a rotor rotates and has A at the top, rotate the next 1.
+		if((rotors[i]->get_rotations() > 0) &&
+		(rotors[i]->get_position() == 0)){
+			rotors[i+1]->rotate();
+			cout << "Rotor #" << i+2 << " rotated because Rotor #" << i+1 << " is in position " << rotors[i]->get_position() << "." << endl;
 		}
 	}
-	
+
 	// Plugboard
 	int rotor_in = pb.swap(enigma_in);
-	rotor_in = fix_input(rotor_in);
-	cout << "The plugboard spit out " << rotor_in << "." << endl;
+	cout << "The plugboard is swapping " << enigma_in << " for " << rotor_in << "." << endl;
 	
 	// Rotors
 	rotor_in = rotor_in + rotors[0]->get_position();
 	rotor_in = fix_input(rotor_in);
+	cout << "Rotor 1 is swapping " << rotor_in;
 	rotor_in = rotors[0]->swap_fwd(rotor_in);
-	rotor_in = fix_input(rotor_in);
-	cout << "Rotor 1 spit out " << rotor_in << endl;
+	cout << " for " << rotor_in << "." << endl;
 	for(int i = 1; i < rotor_count; i++)
 	{
 		rotor_in =	rotor_in +
 					rotors[i]->get_position() -
 					rotors[i-1]->get_position();
+		cout << "Rotor " << i+1 << " is swapping " << rotor_in;
 		rotor_in = fix_input(rotor_in);
 		rotor_in = rotors[i]->swap_fwd(rotor_in);
-
-		cout << "Rotor " << i+1 << " spit out " << rotor_in << endl;
+		cout << " for " << rotor_in << "." << endl;
 	}
 	
 	// Reflector
+	cout << "Reflector is swapping " << rotor_in;
+	rotor_in = rotor_in - rotors[rotor_count-1]->get_position();
+	rotor_in = fix_input(rotor_in);
 	int rotor_out = ref.swap(rotor_in) + rotors[rotor_count-1]->get_position();
 	rotor_out = fix_input(rotor_out);
-	cout << "Reflector spit out " << rotor_out << endl;
+	cout << " for " << rotor_out << "." << endl;
 	
 	// Rotors in reverse
 	for(int i = rotor_count-1; i > 0; i--)
 	{
+		cout << "Rotor " << i+1 << " is swapping " << rotor_out;
 		rotor_out = rotors[i]->swap_rev(rotor_out) -
 					rotors[i]->get_position() +
 					rotors[i-1]->get_position();
 		rotor_out = fix_input(rotor_out);
-		cout << "Rotor " << i+1 << " spit out " << rotor_out << endl;
+		cout << " for " << rotor_out << "." << endl;
 	}
+	cout << "Rotor " << 1 << " is swapping " << rotor_out;
 	rotor_out = rotors[0]->swap_rev(rotor_out) - rotors[0]->get_position();
 	rotor_out = fix_input(rotor_out);
-	cout << "Rotor " << 1 << " spit out " << rotor_out << endl;
+	cout << " for " << rotors[0]->swap_rev(rotor_out) << "." << endl;
 	
 	// Plugboard
+	cout << "The plugboard is swapping " << rotor_out;
 	rotor_out = pb.swap(rotor_out);
+	cout << " for " << rotor_out << "." << endl;
 	rotor_out = fix_input(rotor_out);
 	char output = rotor_out+65;
-	cout << "Final product: " << output << endl;
+	cout << endl << "Final product: " << output << endl << endl;
 	//cout << output;
 	
 	input = cin.get();
