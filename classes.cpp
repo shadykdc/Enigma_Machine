@@ -46,7 +46,6 @@ int Plugboard::swap(int input)
 Rotor::Rotor()
 {
 	position = 0;
-	rotations = 0;
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;
 		notches[i] = 0;
@@ -83,15 +82,9 @@ int Rotor::get_position()
 	return(position);
 }
 
-int Rotor::get_rotations()
-{
-	return(rotations);
-}
-
 void Rotor::rotate()
 {
 	position = position + 1;
-	rotations = rotations +1;
 	if(position > 25)
 	{
 		position = position%26;
