@@ -45,26 +45,32 @@ int Plugboard::swap(int input)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ROTOR CLASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 Rotor::Rotor()
 {
-	notch = 0;
 	position = 0;
 	rotations = 0;
 	for(int i = 0; i < 26; i++){
-		pairs[i] = 0;}
+		pairs[i] = 0;
+		notches[i] = 0;
+	}
 }
 
 void Rotor::assign_values(std::ifstream& ins)
 {
 	int num;
 	int count = 0;
-	int list_in[27];
+	int list_in[52];
+	for(int i = 0; i < 52; i++){
+		list_in[i] = 0;}  // we need to make sure there is definitely a 0.
 	while(ins >> ws >> num)
 	{
 		list_in[count] = num;
 		count++;
 	}
-	for(int i = 0; i < 26; i++)
+	for(int i = 0; i < 26; i++){
 		pairs[i] = list_in[i];
-	notch = list_in[26];
+	}
+	for(int i = 26; i < 52; i++){
+		notches[i-26] = list_in[i];
+	}
 }
 
 void Rotor::assign_position(int input)
@@ -75,11 +81,6 @@ void Rotor::assign_position(int input)
 int Rotor::get_position()
 {
 	return(position);
-}
-
-int Rotor::get_notch()
-{
-	return(notch);
 }
 
 int Rotor::get_rotations()
@@ -97,13 +98,24 @@ void Rotor::rotate()
 	}
 }
 
+bool Rotor::is_a_notch(int input)
+{
+	for (int i = 0; i < 26; i++){
+		if (notches[i] == input){
+			return true;
+		}
+	}
+	return false;
+}
+
 int Rotor::swap_fwd(int input)
 {
 	for (int i = 0; i < 26; i++)
 	{
 		return(pairs[input]);
 	}
-	exit(1);
+	cerr << "Invalid input for Rotor::swap_fwd(): " << input << "." << endl;
+	exit(2);
 }
 
 int Rotor::swap_rev(int input)
@@ -115,7 +127,7 @@ int Rotor::swap_rev(int input)
 			return(i);
 		}
 	}
-	cerr << "Invalid input." << endl;
+	cerr << "Invalid input for Rotor::swap_rev(): " << input << "." << endl;
 	exit(2);
 }
 
@@ -149,6 +161,6 @@ int Reflector::swap(int input)
 				return (pairs[i-1]);}
 		}
 	}
-	cerr << "Invalid input." << endl;
+	cerr << "Invalid input: " << input << "." << endl;
 	exit(2);
 }
