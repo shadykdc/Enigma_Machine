@@ -19,7 +19,7 @@ private:
 public:
 	Plugboard();
 
-	void assign_values(std::ifstream& ins);
+	bool assign_values(std::ifstream& ins);
 		/* function to assign values to pairs[] and plug_cables from the
 		configuration file.  Pairs[] is an array of values for swapping and
 		plug_cables is the number of cables that have been used. Also
@@ -38,7 +38,7 @@ private:
 public:
 	Rotor();
 	
-	void assign_values(std::ifstream& ins);
+	bool assign_values(std::ifstream& ins);
 		/* function to assign values to pairs[] and notches[] from the
 		configuration file.  Pairs[] is an array of values for swapping and
 		notches[] is an array of notches.  Also checks for invalid mappings */
@@ -69,7 +69,7 @@ private:
 public:
 	Reflector();
 	
-	void assign_values(std::ifstream& ins);
+	bool assign_values(std::ifstream& ins);
 		/* function to assign values to pairs[] from the configuration file.
 		Pairs[] is an array of values for swapping.  Also checks for invalid
 		mappings */

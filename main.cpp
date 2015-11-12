@@ -19,32 +19,41 @@ int main(int argc, char **argv)
 	int rotor_count = argc-4; // = -1 if there are no rotors
 	int part_count = count_parts(rotor_count);
 	
-	/* run error checks on configuration files */
+	/* check the number of configuration files */
 	if(argc < 3 || argc == 4){
 		cerr << "Insufficient number of configuration parameters: ";
 		cerr << argc-1 << ".  (Please enter 2 or 4 or more)." << endl;
 		exit(INSUFFICIENT_NUMBER_OF_PARAMETERS);
 	}
+
+	/* create plugboard and check plugboard file */
 	ifstream ins;
 	check_plugboard(argv[1], ins);
+	Plugboard pb;
+	ins.open(argv[1]);
+	if (!pb.assign_values(ins)){
+		cerr << "Configuration file: " << argv[1] << endl;
+		exit(IMPOSSIBLE_PLUGBOARD_CONFIGURATION);
+	}
+	ins.close();
+	
+	/* create reflector and check reflector file */
 	check_reflector(argv[2], ins);
+	Reflector ref;
+	ins.open(argv[2]);
+	if (!ref.assign_values(ins)){
+		cerr << "Configuration file: " << argv[2] << endl;
+		exit(INVALID_REFLECTOR_MAPPING);
+	}
+	ins.close();
+	
+	/* create rotors and check rotor files */
 	if(rotor_count > 0){
 		for(int i = 3; i < argc-1; i++){
 			check_rotor(argv[i], ins);
 		}
 		check_position(argv[argc-1], ins, rotor_count);
 	}
-	
-	/* create and check plugboard and reflector mappings */
-	Plugboard pb;
-	ins.open(argv[1]);
-	pb.assign_values(ins);
-	ins.close();
-	
-	Reflector ref;
-	ins.open(argv[2]);
-	ref.assign_values(ins);
-	ins.close();
 	
 	Rotor *rotors[rotor_count];
 	if(rotor_count > 0){
@@ -55,7 +64,10 @@ int main(int argc, char **argv)
 		/* create rotors */
 		for (int i = 0; i < rotor_count; i++){
 			ins.open(argv[part_count-i]);
-			(rotors[i])->assign_values(ins);
+			if (!(rotors[i])->assign_values(ins)){
+				cerr << "Configuration file: " << argv[part_count-i] << endl;
+				exit(INVALID_ROTOR_MAPPING);
+			}
 			ins.close();
 		}
 		/* import rotor positions */

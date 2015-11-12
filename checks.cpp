@@ -31,7 +31,7 @@ int check_input(char *file, ifstream& ins)
 	while(ins >> ws >> in){
 		if(in > 25 || in < 0){
 			cerr << "Configuration file, " << file << ", ";
-			cerr << "contains an invalid index: '" << input << "'." << endl;
+			cerr << "contains an invalid index: '" << in << "'." << endl;
 			exit(INVALID_INDEX);
 		}
 		count++;
@@ -54,13 +54,13 @@ bool check_plugboard(char *file, ifstream& ins)
 	int count = check_input(file, ins);
 	if(count%2 != 0){
 		cerr << "Plugboard configuration file, " << file;
-		cerr << " has an odd number of parameters (" << count << ")." << endl;
+		cerr << ", has an odd number of parameters (" << count << ")." << endl;
 		exit(INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS);
 	}
 	/* check the number of parameters in the plugboard configuration file */
 	else if(count > 26){
 		cerr << "Plugboard configuration file, " << file;
-		cerr << " has too many parameters (" << count << ")." << endl;
+		cerr << ", has too many parameters (" << count << ")." << endl;
 		exit(INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS);
 	}
 	return true;

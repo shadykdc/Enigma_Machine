@@ -19,7 +19,7 @@ Plugboard::Plugboard()
 	plug_cables = 0;
 }
 
-void Plugboard::assign_values(ifstream& ins)
+bool Plugboard::assign_values(ifstream& ins)
 {
 	int num;
 	int count = 0;
@@ -33,13 +33,14 @@ void Plugboard::assign_values(ifstream& ins)
 	for (int i = 0; i < count-1; i++){
 		for (int j = i+1; j < count; j++){
 			if(pairs[i] == pairs[j]){
-				cerr << "The plugboard configuration file has an " << endl;
+				cerr << "The plugboard configuration file has an ";
 				cerr << "invalid mapping.  " << pairs[i] << " appears";
 				cerr << " twice." << endl;
-				exit(IMPOSSIBLE_PLUGBOARD_CONFIGURATION);
+				return false;
 			}
 		}
 	}
+	return true;
 }
 
 int Plugboard::swap(int input)
@@ -62,18 +63,18 @@ Rotor::Rotor()
 {
 	position = 0;
 	for(int i = 0; i < 26; i++){
-		pairs[i] = 0;
+		pairs[i] = -1;
 		notches[i] = -1;
 	}
 }
 
-void Rotor::assign_values(std::ifstream& ins)
+bool Rotor::assign_values(std::ifstream& ins)
 {
 	int num;
 	int count = 0;
 	int list_in[52];
 	for(int i = 0; i < 52; i++){
-		list_in[i] = 0;}
+		list_in[i] = -1;}
 	while(ins >> ws >> num){
 		list_in[count] = num;
 		count++;
@@ -89,23 +90,22 @@ void Rotor::assign_values(std::ifstream& ins)
 	for (int i=0; i<25; i++){
 		for(int j=i+1; j<26; j++){
 			if(pairs[i] == pairs[j]){
-				cerr << "The rotor configuration file has an invalid mapping.";
-				cerr << "  " << pairs[i] << " appears twice in the mapping";
-				cerr << " list." << endl;
-				exit(INVALID_ROTOR_MAPPING);
+				cerr << "Rotor configuration file contains repeat";
+				cerr << " mappings (" << pairs[i] << ")." << endl;
+				return false;
 			}
 		}
 	}
-	for (int i=26; i<51; i++){
-		for(int j=i+1; j<52; j++){
-			if(pairs[i] == pairs[j] && pairs[i] != -1){
-				cerr << "The rotor configuration file has an invalid mapping.";
-				cerr << "  " << pairs[i] << " appears twice in the notches";
-				cerr << " list." << endl;
-				exit(INVALID_ROTOR_MAPPING);
+	for (int i = 0; i < 25; i++){
+		for(int j = i+1; j < 26; j++){
+			if(notches[i] == notches[j] && notches[i] != -1){
+				cerr << "Rotor configuration file contians repeat";
+				cerr << " notches (" << notches[i] << ")." << endl;
+				return false;
 			}
 		}
 	}
+	return true;
 }
 
 void Rotor::assign_position(int input)
@@ -159,7 +159,7 @@ Reflector::Reflector()
 		pairs[i] = 0;}
 }
 
-void Reflector::assign_values(ifstream& ins)
+bool Reflector::assign_values(ifstream& ins)
 {
 	int num;
 	int count = 0;
@@ -175,10 +175,11 @@ void Reflector::assign_values(ifstream& ins)
 			if(pairs[i] == pairs[j]){
 				cerr << "The reflector configuration file has an invalid ";
 				cerr << "mapping.  " << pairs[i] << " appears twice." << endl;
-				exit(INVALID_REFLECTOR_MAPPING);
+				return false;
 			}
 		}
 	}
+	return true;
 }
 
 int Reflector::swap(int input)
