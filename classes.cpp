@@ -14,7 +14,8 @@ using namespace std;
 Plugboard::Plugboard()
 {
 	for(int i = 0; i < 26; i++){
-		pairs[i] = 0;}
+		pairs[i] = 0;
+	}
 	plug_cables = 0;
 }
 
@@ -27,6 +28,18 @@ void Plugboard::assign_values(ifstream& ins)
 		count++;
 	}
 	plug_cables = count/2;
+	
+	/* check plugboard for repeats */
+	for (int i = 0; i < count-1; i++){
+		for (int j = i+1; j < count; j++){
+			if(pairs[i] == pairs[j]){
+				cerr << "The plugboard configuration file has an " << endl;
+				cerr << "invalid mapping.  " << pairs[i] << " appears";
+				cerr << " twice." << endl;
+				exit(IMPOSSIBLE_PLUGBOARD_CONFIGURATION);
+			}
+		}
+	}
 }
 
 int Plugboard::swap(int input)
@@ -34,9 +47,11 @@ int Plugboard::swap(int input)
 	for (int i = 0; i < (plug_cables*2); i++){
 		if(pairs[i] == input){
 			if (i%2 == 0){
-				return (pairs[i+1]);}
+				return (pairs[i+1]);
+			}
 			else {
-				return (pairs[i-1]);}
+				return (pairs[i-1]);
+			}
 		}
 	}
 	return(input);
@@ -48,7 +63,7 @@ Rotor::Rotor()
 	position = 0;
 	for(int i = 0; i < 26; i++){
 		pairs[i] = 0;
-		notches[i] = 0;
+		notches[i] = -1;
 	}
 }
 
@@ -68,6 +83,28 @@ void Rotor::assign_values(std::ifstream& ins)
 	}
 	for(int i = 26; i < 52; i++){
 		notches[i-26] = list_in[i];
+	}
+	
+	/* check rotor for repeats */
+	for (int i=0; i<25; i++){
+		for(int j=i+1; j<26; j++){
+			if(pairs[i] == pairs[j]){
+				cerr << "The rotor configuration file has an invalid mapping.";
+				cerr << "  " << pairs[i] << " appears twice in the mapping";
+				cerr << " list." << endl;
+				exit(INVALID_ROTOR_MAPPING);
+			}
+		}
+	}
+	for (int i=26; i<51; i++){
+		for(int j=i+1; j<52; j++){
+			if(pairs[i] == pairs[j] && pairs[i] != -1){
+				cerr << "The rotor configuration file has an invalid mapping.";
+				cerr << "  " << pairs[i] << " appears twice in the notches";
+				cerr << " list." << endl;
+				exit(INVALID_ROTOR_MAPPING);
+			}
+		}
 	}
 }
 
@@ -130,6 +167,17 @@ void Reflector::assign_values(ifstream& ins)
 	{
 		pairs[count] = num;
 		count++;
+	}
+	
+	/* check reflector for repeats */
+	for (int i=0; i<25; i++){
+		for(int j=i+1; j<26; j++){
+			if(pairs[i] == pairs[j]){
+				cerr << "The reflector configuration file has an invalid ";
+				cerr << "mapping.  " << pairs[i] << " appears twice." << endl;
+				exit(INVALID_REFLECTOR_MAPPING);
+			}
+		}
 	}
 }
 

@@ -14,16 +14,19 @@
 class Plugboard
 {
 private:
-	int plug_cables;
 	int pairs[26];
+	int plug_cables;
 public:
 	Plugboard();
 
-	/* function to assign pairs to the array and the number of cables */
 	void assign_values(std::ifstream& ins);
-	
-	/* function to swap an input with an output */
+		/* function to assign values to pairs[] and plug_cables from the
+		configuration file.  Pairs[] is an array of values for swapping and
+		plug_cables is the number of cables that have been used. Also
+		checks for invalid mappings */
+			
 	int swap(int input);
+		/* function to swap a plugboard input with an output */
 };
 
 class Rotor
@@ -35,24 +38,28 @@ private:
 public:
 	Rotor();
 	
-	/* function to assign pairs to the array and a value for the notch */
 	void assign_values(std::ifstream& ins);
+		/* function to assign values to pairs[] and notches[] from the
+		configuration file.  Pairs[] is an array of values for swapping and
+		notches[] is an array of notches.  Also checks for invalid mappings */
 	
-	/* assign the position from the other stream */
 	void assign_position(int input);
+		/* function to assign the starting position value  from the
+		position configuration file */
 	
-	/* get position of rotor */
 	int get_position();
+		/* function that returns the position of rotor */
 	
-	/* function to rotate the rotor */
 	void rotate();
+		/* function to rotate (increment position of) the rotor */
 	
-	/* function to check if a number is a notch */
 	bool is_a_notch(int input);
+		/* function that returns true if input is a notch value */
 	
-	/* function to trace an input to the corresponding output backwards */
 	int swap_fwd(int input);
+		/* function to trace an input to the corresponding output forwards */
 	int swap_rev(int input);
+		/* function to trace an input to the corresponding output in reverse */
 };
 
 class Reflector
@@ -62,11 +69,13 @@ private:
 public:
 	Reflector();
 	
-	/* function to assign pairs to the array */
 	void assign_values(std::ifstream& ins);
-	
-	/* function to swap an input with an output */
+		/* function to assign values to pairs[] from the configuration file.
+		Pairs[] is an array of values for swapping.  Also checks for invalid
+		mappings */
+		
 	int swap(int input);
+		/* function that swaps an input and returns an output */
 };
 
 #endif

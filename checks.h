@@ -11,16 +11,16 @@
 #include "helpers.h"
 #include "checks.h"
 
-/* checks a configuration file for the plugboard for any errors */
 bool check_plugboard(char *file, std::ifstream& ins);
+	/* returns true if a configuration file for the plugboard has no errors */
 
-/* checks a configuration file for the reflector for any errors */
 bool check_reflector(char *file, std::ifstream& ins);
+	/* returns true if a configuration file for the reflector has no errors */
 
-/* checks a configuration file for the rotor for any errors */
 bool check_rotor(char *file, std::ifstream& ins);
+	/* returns true if a configuration file for the rotors has no errors */
 
-/* checks a configuration file for the rotor positions for any errors */
 bool check_position(char *file, std::ifstream& ins, int rotor_count);
+	/* returns true if a configuration file for the position has no errors */
 
 #endif
