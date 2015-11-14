@@ -70,7 +70,7 @@ Rotor::Rotor()
 
 bool Rotor::assign_values(char *file)
 {
-    std::ifstream ins;
+    ifstream ins;
     ins.open(file);
 	int num;
 	int count = 0;
