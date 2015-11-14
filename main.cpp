@@ -87,7 +87,8 @@ int main(int argc, char **argv)
 	{
 	int enigma_in = input - 65;
 	if(enigma_in > 25 || enigma_in < 0){
-		cerr << "Invalid Character - please use capital letters, A-Z." << endl;
+		cerr << input << " is not a valid input character (input characters";
+		cerr << " must be upper case letters A-Z)!" << endl;
 		exit(INVALID_INPUT_CHARACTER);
 	}
 	
