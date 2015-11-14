@@ -70,7 +70,7 @@ Rotor::Rotor()
 
 bool Rotor::assign_values(char *file)
 {
-    ifstream ins;
+    std::ifstream ins;
     ins.open(file);
 	int num;
 	int count = 0;
@@ -81,6 +81,7 @@ bool Rotor::assign_values(char *file)
 		list_in[count] = num;
 		count++;
 	}
+	ins.close();
 	for(int i = 0; i < 26; i++){
 		pairs[i] = list_in[i];
 	}
