@@ -63,12 +63,10 @@ int main(int argc, char **argv)
 		}	
 		/* create rotors */
 		for (int i = 0; i < rotor_count; i++){
-			ins.open(argv[part_count-i]);
-			if (!(rotors[i])->assign_values(ins)){
+			if (!(rotors[i])->assign_values(argv[part_count-i)){
 				cerr << "Configuration file: " << argv[part_count-i] << endl;
 				exit(INVALID_ROTOR_MAPPING);
 			}
-			ins.close();
 		}
 		/* import rotor positions */
 		ins.open(argv[part_count+1]);
