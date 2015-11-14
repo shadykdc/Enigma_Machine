@@ -68,8 +68,10 @@ Rotor::Rotor()
 	}
 }
 
-bool Rotor::assign_values(std::ifstream& ins)
+bool Rotor::assign_values(char *file)
 {
+    ifstream ins;
+    ins.open(file);
 	int num;
 	int count = 0;
 	int list_in[52];
@@ -90,8 +92,21 @@ bool Rotor::assign_values(std::ifstream& ins)
 	for (int i=0; i<25; i++){
 		for(int j=i+1; j<26; j++){
 			if(pairs[i] == pairs[j]){
-				cerr << "Rotor configuration file contains repeat";
-				cerr << " mappings (" << pairs[i] << ")." << endl;
+				cerr << "Invald mapping of input " << pairs[j] << " to output ";
+				if (j%2 == 0){
+				    cerr << pairs[j+1] << " (output " << pairs[j+1];
+				}
+				else {
+				    cerr << pairs[j-1] << " (output " << pairs[j-1];
+				}
+				cerr << " is already mapped to from input ";
+				if (i%2 == 0){
+				    cerr << pairs[i+1];
+				}
+				else {
+				    cerr << pairs[i-1];
+				}
+				cerr << ") in rotor file: " << file << endl;
 				return false;
 			}
 		}
