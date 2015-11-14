@@ -109,8 +109,8 @@ bool Rotor::assign_values(char *file)
 	for (int i = 0; i < 25; i++){
 		for(int j = i+1; j < 26; j++){
 			if(notches[i] == notches[j] && notches[i] != -1){
-				cerr << "Rotor configuration file contians repeat";
-				cerr << " notches (" << notches[i] << ")." << endl;
+				cerr << "Rotor configuration file, " << file << ", contians ";
+				cerr << "repeat notches (" << notches[i] << ")." << endl;
 				return false;
 			}
 		}
