@@ -93,19 +93,13 @@ bool Rotor::assign_values(char *file)
 	for (int i=0; i<25; i++){
 		for(int j=i+1; j<26; j++){
 			if(pairs[i] == pairs[j]){
-				cerr << "Invald mapping of input " << pairs[j] << " to output ";
-				if (j%2 == 0){
-				    cerr << pairs[j+1] << " (output " << pairs[j+1];
-				}
-				else {
-				    cerr << pairs[j-1] << " (output " << pairs[j-1];
-				}
-				cerr << " is already mapped to from input ";
+				cerr << "Invald mapping of input " << pairs[i] << " to output ";
+				cerr << pairs[j] << " is already mapped to from input ";
 				if (i%2 == 0){
-				    cerr << pairs[i+1];
+				    cerr << pairs[j+1];
 				}
 				else {
-				    cerr << pairs[i-1];
+				    cerr << pairs[j-1];
 				}
 				cerr << ") in rotor file: " << file << endl;
 				return false;
