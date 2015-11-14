@@ -38,7 +38,7 @@ private:
 public:
 	Rotor();
 	
-	bool assign_values(std::ifstream& ins);
+	bool assign_values(char *file);
 		/* function to assign values to pairs[] and notches[] from the
 		configuration file.  Pairs[] is an array of values for swapping and
 		notches[] is an array of notches.  Also checks for invalid mappings */
