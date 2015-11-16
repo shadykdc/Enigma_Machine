@@ -34,8 +34,7 @@ bool Plugboard::assign_values(ifstream& ins)
 		for (int j = i+1; j < count; j++){
 			if(pairs[i] == pairs[j]){
 				cerr << "The plugboard configuration file has an ";
-				cerr << "invalid mapping.  " << pairs[i] << " appears";
-				cerr << " twice." << endl;
+				cerr << "invalid mapping." << endl;
 				return false;
 			}
 		}
@@ -179,7 +178,7 @@ bool Reflector::assign_values(ifstream& ins)
 		for(int j=i+1; j<26; j++){
 			if(pairs[i] == pairs[j]){
 				cerr << "The reflector configuration file has an invalid ";
-				cerr << "mapping.  " << pairs[i] << " appears twice." << endl;
+				cerr << "mapping." << endl;
 				return false;
 			}
 		}
