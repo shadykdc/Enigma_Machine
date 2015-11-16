@@ -153,5 +153,5 @@ int main(int argc, char **argv)
 		cout << output;
 	} // if / else bracket
 	} // while loop bracket -- didn't want my code to be really narrow
-	exit(NO_ERROR);
+	return NO_ERROR;
 }
