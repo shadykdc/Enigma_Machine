@@ -23,38 +23,46 @@ int main(int argc, char **argv)
 	if(argc < 3 || argc == 4){
 		cerr << "Insufficient number of configuration parameters: ";
 		cerr << argc-1 << ".  (Please enter 2 or 4 or more)." << endl;
-		exit(INSUFFICIENT_NUMBER_OF_PARAMETERS);
+		return INSUFFICIENT_NUMBER_OF_PARAMETERS;
 	}
 
 	/* create plugboard and check plugboard file */
 	ifstream ins;
-	check_plugboard(argv[1], ins);
+	int error = check_plugboard(argv[1], ins);
+	if(error > 0){
+		return(error);}
 	Plugboard pb;
 	ins.open(argv[1]);
 	if (!pb.assign_values(ins)){
 		cerr << "Configuration file: " << argv[1] << endl;
-		exit(IMPOSSIBLE_PLUGBOARD_CONFIGURATION);
+		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
 	ins.close();
-	
+
 	/* create reflector and check reflector file */
-	check_reflector(argv[2], ins);
+	error = check_reflector(argv[2], ins);
+	if(error > 0){
+		return(error);}
 	Reflector ref;
 	ins.open(argv[2]);
 	if (!ref.assign_values(ins)){
 		cerr << "Configuration file: " << argv[2] << endl;
-		exit(INVALID_REFLECTOR_MAPPING);
+		return INVALID_REFLECTOR_MAPPING;
 	}
 	ins.close();
-	
+
 	/* create rotors and check rotor files */
 	if(rotor_count > 0){
 		for(int i = 3; i < argc-1; i++){
-			check_rotor(argv[i], ins);
+			error = check_rotor(argv[i], ins);
+			if(error > 0){
+				return(error);}
 		}
-		check_position(argv[argc-1], ins, rotor_count);
+		error = check_position(argv[argc-1], ins, rotor_count);
+		if(error > 0){
+			return(error);}
 	}
-	
+
 	Rotor *rotors[rotor_count];
 	if(rotor_count > 0){
 		/* create an array of pointers to rotors */
