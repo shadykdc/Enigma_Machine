@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 	if(enigma_in > 25 || enigma_in < 0){
 		cerr << input << " is not a valid input character (input characters";
 		cerr << " must be upper case letters A-Z)!" << endl;
-		exit(INVALID_INPUT_CHARACTER);
+		return(INVALID_INPUT_CHARACTER);
 	}
 	
 	if (rotor_count > 0){
