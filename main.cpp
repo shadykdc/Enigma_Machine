@@ -161,5 +161,12 @@ int main(int argc, char **argv)
 		cout << output;
 	} // if / else bracket
 	} // while loop bracket -- didn't want my code to be really narrow
+
+	/* delete rotors array */
+	for (int i = 0; i < rotor_count; i++){
+		delete rotors[i];
+	}
+	
+	/* we're done here */
 	return NO_ERROR;
 }
