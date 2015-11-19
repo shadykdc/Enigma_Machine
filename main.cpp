@@ -94,6 +94,10 @@ int main(int argc, char **argv)
 	if(enigma_in > 25 || enigma_in < 0){
 		cerr << input << " is not a valid input character (input characters";
 		cerr << " must be upper case letters A-Z)!" << endl;
+		/* delete rotors array */
+		for (int i = 0; i < rotor_count; i++){
+			delete rotors[i];
+		}
 		return(INVALID_INPUT_CHARACTER);
 	}
 	
