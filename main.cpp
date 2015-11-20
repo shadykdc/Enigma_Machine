@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	}
 	ins.close();
 
-	/* create rotors and check rotor files */
+	/* check rotor files */
 	if(rotor_count > 0){
 		for(int i = 3; i < argc-1; i++){
 			error = check_rotor(argv[i], ins);
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 		/* create rotors */
 		for (int i = 0; i < rotor_count; i++){
 			if (!(rotors[i])->assign_values(argv[part_count-i])){
-				exit(INVALID_ROTOR_MAPPING);
+				return(INVALID_ROTOR_MAPPING);
 			}
 		}
 		/* import rotor positions */
@@ -123,6 +123,7 @@ int main(int argc, char **argv)
 	/* run the plugboard */
 	int letter = pb.swap(enigma_in);
 	if(rotor_count < 0){
+	    /* if there are no rotors, run the plugboard and reflector and print */
 		letter = ref.swap(letter);
 		letter = pb.swap(letter);
 		char output = letter+65;
