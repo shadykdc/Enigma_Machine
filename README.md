@@ -14,9 +14,10 @@ Then write in the command line something like:
 
     ./enigma plugboards/I.pb reflectors/I.rf rotors/I.rot rotors/II.rot rotors/III.rot rotors/I.pos
 
-Type in a message and then send the garbled output to your friend with the above configuration settings.
+Type in a message and an encrypted message will appear. Send that to your friend with the above configuration settings.
 
-If your friend then pulls the code, uses these configuration settings, and puts that garbled message in,
-then your original message will appear!
+Have your friend pull the code, use these configuration settings, and put that encrypted message in.
+
+Then the enigma machine will decrypt the message!
 
 For more information check out the [specification pdf](https://github.com/shadykdc/Enigma_Machine/blob/master/spec-550-2-0.pdf).
