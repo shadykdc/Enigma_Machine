@@ -20,8 +20,8 @@ I guess I didn't do that back when I wrote this code so I'm going to leave it th
 ```
  4. Type in a message and press enter, then an encrypted message will appear.
  
- 5. Send that to your friend with the above configuration settings (or crtl+c / ctrl+d out and re-run the same prompt if you can't find any friends). Have your friend repeat the above steps.
+ 5. Send that to your friend with the above configuration settings (or crtl+c / ctrl+d out and re-run the same prompt if you can't find any friends). Have your friend repeat the above steps but instead of writing a message, write the encrypted message and press enter.
  
- 6. The enigma machine will decrypt the message!
+ 6. The decrypted message will appear!
 
 For more information check out the [specification pdf](https://github.com/shadykdc/Enigma_Machine/blob/master/spec-550-2-0.pdf).
