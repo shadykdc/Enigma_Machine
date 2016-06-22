@@ -11,7 +11,7 @@ I guess I didn't do that back when I wrote this code so I'm going to leave it th
 
 # How To Try It:
 1. Download the folder or pull it.
-2. Go to the folder that contains the makefile and run make (this doesn't work on my mac, unfortunately but it works on my linux machines).
+2. Go to the folder that contains the makefile and run make (this doesn't work on my mac, unfortunately, but it works on my linux machines).
 3. Write in the command line something like:
     ./enigma plugboards/I.pb reflectors/I.rf rotors/I.rot rotors/II.rot rotors/III.rot rotors/I.pos
 4. Type in a message and press enter, then an encrypted message will appear.
