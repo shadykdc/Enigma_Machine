@@ -1,6 +1,6 @@
 # Enigma_Machine
 ## Introduction
-A working version of the enigma machine that Alan Turing managed to decrypt.
+This is a working version of the enigma machine that Alan Turing managed to decrypt.
 
 The three folders (rotors, refletors, and plugboards) contain the configuration files for the physical parts of the enigma machine.
 
