@@ -1,5 +1,5 @@
-## Enigma_Machine
-# Introduction
+# Enigma_Machine
+## Introduction
 A working version of the enigma machine that Alan Turing managed to decrypt.
 
 The three folders (rotors, refletors, and plugboards) contain the configuration files for the physical parts of the enigma machine.
@@ -9,7 +9,7 @@ If you're not sure how the enigma machine works, check out this [video](https://
 main.cpp does a lot of the work and should be split up into multiple functions/files but...
 I guess I didn't do that back when I wrote this code so I'm going to leave it that way for now...
 
-# How To Try It:
+## How To Try It:
  1. Download the folder or pull it.
  
  2. Go to the folder that contains the makefile and run make. (This doesn't work on my mac, unfortunately, but it works on my linux machines).
